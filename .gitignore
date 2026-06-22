@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+blockchain/node_modules/
+
+# Build outputs
+client/dist/
+client/build/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+server/.env
+
+# ML model files (large binaries, regenerate with train_model.py)
+ml-service/model/
+ml-service/venv/
+ml-service/__pycache__/
+ml-service/*.pkl
+
+# Blockchain artifacts
+blockchain/artifacts/
+blockchain/cache/
+blockchain/deployments/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Hardhat
+blockchain/typechain/
+blockchain/typechain-types/

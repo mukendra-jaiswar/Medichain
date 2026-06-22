@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100 font-sans antialiased;
+    background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #0f0c29 100%);
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-gray-900; }
+  ::-webkit-scrollbar-thumb { @apply bg-indigo-600 rounded-full; }
+}
+
+@layer components {
+  .glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-6 transition-all duration-300;
+  }
+  .glass-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(99,102,241,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(99,102,241,0.15);
+  }
+
+  .btn-primary {
+    @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #4338ca, #4f46e5);
+    box-shadow: 0 6px 24px rgba(99,102,241,0.4);
+    transform: scale(1.02);
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    @apply glass text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.12);
+    transform: scale(1.02);
+  }
+  .btn-secondary:active { transform: scale(0.98); }
+
+  .btn-accent {
+    @apply text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200;
+    background: linear-gradient(135deg, #059669, #10b981);
+    box-shadow: 0 4px 20px rgba(16,185,129,0.3);
+  }
+  .btn-accent:hover {
+    background: linear-gradient(135deg, #047857, #059669);
+    transform: scale(1.02);
+  }
+  .btn-accent:active { transform: scale(0.98); }
+  .btn-accent:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .input-field {
+    @apply w-full rounded-xl px-4 py-3 text-white transition-all duration-200;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    placeholder-color: #6b7280;
+  }
+  .input-field::placeholder { color: #6b7280; }
+  .input-field:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  .badge-primary {
+    @apply badge;
+    background: rgba(99,102,241,0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.3);
+  }
+  .badge-success {
+    @apply badge;
+    background: rgba(16,185,129,0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+  .badge-warning {
+    @apply badge;
+    background: rgba(245,158,11,0.2);
+    color: #fcd34d;
+    border: 1px solid rgba(245,158,11,0.3);
+  }
+  .badge-danger {
+    @apply badge;
+    background: rgba(239,68,68,0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239,68,68,0.3);
+  }
+  .badge-info {
+    @apply badge;
+    background: rgba(6,182,212,0.2);
+    color: #67e8f9;
+    border: 1px solid rgba(6,182,212,0.3);
+  }
+
+  .stat-card {
+    @apply glass-card flex items-center gap-4;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #818cf8, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-white mb-6;
+  }
+
+  .leaflet-container { @apply rounded-xl; }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  .animate-pulse-slow {
+    animation: pulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
