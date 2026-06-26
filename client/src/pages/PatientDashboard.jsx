@@ -38,8 +38,9 @@ export default function PatientDashboard() {
 
   useEffect(() => {
     if (!user) return;
-    API.get(`/appointments/${user.id}`)
-      .then(r => setAppointments(r.data))
+    const userId = user._id || user.id;
+    API.get(`/appointments/${userId}`)
+      .then(r => setAppointments(Array.isArray(r.data) ? r.data : []))
       .catch(() => toast.error('Failed to load appointments'))
       .finally(() => setLoading(false));
   }, [user]);

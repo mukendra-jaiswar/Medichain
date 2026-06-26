@@ -31,11 +31,24 @@ export default function MedicalRecords() {
   const [verifyResults, setVerifyResults] = useState({});
 
   useEffect(() => {
-    if (!user) return;
-    const id = user.role === 'doctor' ? user.id : user.id;
-    API.get(`/records/${id}`)
-      .then(r => setRecords(r.data))
-      .catch(() => toast.error('Failed to load medical records'))
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    const userId = user._id || user.id;
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+    API.get(`/records/${userId}`)
+      .then(r => setRecords(Array.isArray(r.data) ? r.data : []))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          toast.error('Please log in to view medical records');
+        } else {
+          toast.error('Failed to load medical records');
+        }
+      })
       .finally(() => setLoading(false));
   }, [user]);
 
