@@ -64,8 +64,7 @@ const getRecords = async (req, res) => {
   try {
     const records = await Appointment.find({
       patientId: req.params.patientId,
-      status: 'completed',
-      recordId: { $ne: '' }
+      status: 'completed'
     })
       .populate('doctorId', 'name specialization hospital location')
       .sort({ createdAt: -1 });

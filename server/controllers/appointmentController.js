@@ -1,6 +1,9 @@
 const Appointment = require('../models/Appointment');
 const Doctor = require('../models/Doctor');
 const User = require('../models/User');
+const crypto = require('crypto');
+
+const hashRecord = (data) => crypto.createHash('sha256').update(JSON.stringify(data)).digest('hex');
 
 // Helper: push notification to a user
 const pushNotification = async (userId, message, type = 'appointment', link = '') => {
@@ -116,22 +119,38 @@ const updateAppointmentStatus = async (req, res) => {
 const addDiagnosis = async (req, res) => {
   try {
     const { diagnosis, prescription } = req.body;
-    const appointment = await Appointment.findByIdAndUpdate(
-      req.params.id,
-      { diagnosis, prescription, status: 'completed' },
-      { new: true }
-    ).populate('patientId', 'name email');
+    const appointment = await Appointment.findById(req.params.id)
+      .populate('patientId', 'name email')
+      .populate('doctorId');
 
     if (!appointment) return res.status(404).json({ message: 'Appointment not found' });
 
+    // Generate record hash automatically to secure on the chain
+    const recordData = {
+      patientId: appointment.patientId._id,
+      doctorId: appointment.doctorId._id,
+      diagnosis,
+      prescription,
+      notes: appointment.notes || '',
+      symptoms: appointment.symptoms,
+      date: new Date().toISOString()
+    };
+    const recordHash = hashRecord(recordData);
+
+    appointment.diagnosis = diagnosis;
+    appointment.prescription = prescription;
+    appointment.recordId = recordHash;
+    appointment.status = 'completed';
+    await appointment.save();
+
     await pushNotification(
       appointment.patientId._id,
-      `Dr. added your diagnosis. Please check your medical records.`,
+      `Your medical record has been added by your doctor and secured on the blockchain.`,
       'record',
       '/records'
     );
 
-    res.json({ message: 'Diagnosis added', appointment });
+    res.json({ message: 'Diagnosis added and secured', appointment });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

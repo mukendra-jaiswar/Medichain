@@ -53,7 +53,7 @@ export default function PatientDashboard() {
     total:     appointments.length,
     upcoming:  upcoming.length,
     completed: appointments.filter(a => a.status === 'completed').length,
-    records:   appointments.filter(a => a.status === 'completed' && a.recordId).length,
+    records:   appointments.filter(a => a.status === 'completed').length,
   };
 
   return (
